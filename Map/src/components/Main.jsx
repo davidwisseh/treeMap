@@ -1,11 +1,10 @@
 import * as d3 from "d3";
 import React from "react";
-const Main = ({ current, first }) => {
+const Main = ({ current, counter }) => {
   const m = document.querySelector(".container");
-  if (m && !first) {
+  if (counter > 2) {
     m.innerHTML = "";
   }
-
   const tooltip = d3
     .select(".container")
     .append("div")

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -8,8 +8,11 @@ import * as d3 from "d3";
 function App() {
   const [datasets, setDatasets] = useState(null);
   const [current, setCurrent] = useState(null);
-  const [first, setFirst] = useState(true);
+  const [count, setCount] = useState(1);
 
+  useEffect(() => {
+    setCount(count + 1);
+  }, [current]);
   useEffect(() => {
     const getter = async () => {
       const kickres = await fetch(
@@ -29,37 +32,36 @@ function App() {
       setCurrent(sets[0]);
     };
     getter();
-    setFirst(false);
   }, []);
-  return current ? (
-    <div
-      id="main"
-      style={{ position: "absolute", minHeight: "100vh", minWidth: "100vw" }}
-    >
-      <div className="navbar">
-        <ul>
-          {datasets.map((set, i) => {
-            return (
-              <li key={set.name}>
-                <a
-                  href=""
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setCurrent(set);
-                  }}
-                >
-                  {set.name.split(" ").slice(0, 2).join(" ")} Data Set
-                </a>
-                {i < datasets.length - 1 ? <span>|</span> : <span></span>}
-              </li>
-            );
-          })}
-        </ul>
+  return (
+    current && (
+      <div
+        id="main"
+        style={{ position: "absolute", minHeight: "100vh", minWidth: "100vw" }}
+      >
+        <div className="navbar">
+          <ul>
+            {datasets.map((set, i) => {
+              return (
+                <li key={set.name}>
+                  <a
+                    href=""
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setCurrent(set);
+                    }}
+                  >
+                    {set.name.split(" ").slice(0, 2).join(" ")} Data Set
+                  </a>
+                  {i < datasets.length - 1 ? <span>|</span> : <span></span>}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <Main current={current} counter={count}></Main>
       </div>
-      <Main current={current} first={first}></Main>
-    </div>
-  ) : (
-    <></>
+    )
   );
 }
 
