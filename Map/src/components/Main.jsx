@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import React from "react";
-const Main = ({ current }) => {
+const Main = ({ current, first }) => {
   const m = document.querySelector(".container");
-  if (m) {
+  if (m && !first) {
     m.innerHTML = "";
   }
 

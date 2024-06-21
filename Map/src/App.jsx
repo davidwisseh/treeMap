@@ -8,6 +8,7 @@ import * as d3 from "d3";
 function App() {
   const [datasets, setDatasets] = useState(null);
   const [current, setCurrent] = useState(null);
+  const [first, setFirst] = useState(true);
 
   useEffect(() => {
     const getter = async () => {
@@ -28,6 +29,7 @@ function App() {
       setCurrent(sets[0]);
     };
     getter();
+    setFirst(false);
   }, []);
   return current ? (
     <div
@@ -54,12 +56,10 @@ function App() {
           })}
         </ul>
       </div>
-      <Main current={current}></Main>
+      <Main current={current} first={first}></Main>
     </div>
   ) : (
-    <>
-      <p>...Loading</p>
-    </>
+    <></>
   );
 }
 
